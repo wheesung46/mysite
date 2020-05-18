@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- console, file, socket, JDBC 종류의 appender 제공! -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- character encoding -->
+			<charset>UTF-8</charset>
+			<!-- logger 출력 패턴 (표현식) -->
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>c:\MyLogExample\logtest.log</file>
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+         <Pattern>
+            %d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+         </Pattern>
+      </encoder>
+      <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> <!-- window 압축 클래스. -->
+         <FileNamePattern>c:\MyLogExample\logtest.%i.log.zip</FileNamePattern> <!-- i는 index 값. -->
+         <MinIndex>1</MinIndex>
+         <MaxIndex>10</MaxIndex>
+      </rollingPolicy>
+      <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <MaxFileSize>5KB</MaxFileSize>
+      </triggeringPolicy>
+   </appender>
+	<logger name="com.bit.log1" level="debug">
+		<appender-ref ref="fileAppender"/>
+		<appender-ref ref="consoleAppender"/>
+	</logger>
+	<!-- 루트 로거 (글로벌) -->
+	<root level="info"/>
+</configuration>
